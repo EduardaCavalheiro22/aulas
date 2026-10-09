@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de espera</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <main class="lanchonete">
+
+        <header class="topo">
+            <h1>Lista de espera</h1>
+            <p class="contagem">Ninguém esperando</p>
+        </header>
+
+        <form class="cadastro">
+            <h2>Cadastro</h2>
+
+            <p>
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" class="campo-nome">
+            </p>
+
+            <div class="botoes">
+                <button type="submit" class="botao-entrar">Entrar na fila</button>
+                <button type="button" class="botao-preferencial">Preferencial</button>
+                <button type="button" class="botao-desistiu">Desistiu</button>
+                <button type="button" class="botao-desfazer">Desfazer último</button>
+            </div>
+
+            <p class="aviso"></p>
+        </form>
+
+        <section class="espera">
+            <h2>Esperando</h2>
+            <ol class="lista">                
+            </ol>
+        </section>
+
+        <section class="chamada">
+            <h2>Chamando agora</h2>
+            <p class="nome-chamado">Ninguém</p>
+            <button type="button" class="botao-chamar">Chamar próximo</button>
+        </section>
+
+    </main>
+
+</body>
+
+</html>

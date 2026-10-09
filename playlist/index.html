@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de espera</title>
+    <link rel="stylesheet" href="style (3).css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <main class="playlist">
+
+        <header class="topo">
+            <h1>Na fila</h1>
+            <p class="filaAgora">Nenhuma musica na fila.</p>
+        </header>
+
+        <form class="play">
+            <h2>Tocando agora:</h2>
+            <p class="musicaAgora">Nenhum som.</p>
+             <button type="button" class="botao-pular">Pular</button>
+        </form>
+
+        <section class="controle">
+            <h2>Comandos</h2>
+
+            <p>
+                <label for="nome">Musica</label>
+                <input type="text" id="musica" class="campo-musica">
+            </p>
+
+            <div class="botoes">
+                <button type="button" class="botao-fim">Adicionar ao fim</button>
+                <button type="button" class="botao-depois">Tocar depois desta</button>
+                <button type="button" class="botao-remove">Remover da fila</button>
+                <button type="button" class="botao-desfazer">Desfazer última</button>
+            </div>
+
+            <p class="aviso"></p>
+        </section>
+
+        <section class="fila">
+            <h2>A seguir</h2>
+            <ol class="lista"></ol>
+        </section>
+
+    </main>
+
+</body>
+
+</html>

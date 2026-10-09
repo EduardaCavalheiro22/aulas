@@ -1,0 +1,47 @@
+.topo,
+.play,
+.controle,
+.fila {
+    padding: 12px;
+    border: 2px solid #333333;
+}
+
+.topo     { background-color: #ffe8cc; }
+.play { background-color: #e7f5ff; }
+.controle   { background-color: #ebfbee; }
+.fila  { background-color: #fff0f6; }
+
+.topo     { grid-area: topo; }
+.play { grid-area: play; }
+.controle   { grid-area: controle; }
+.fila  { grid-area: fila; }
+
+
+.playlist {
+    display: grid;
+    gap: 12px;
+    max-width: 960px;
+    margin: 0 auto;
+
+    /* Celular: tudo empilhado. A chamada vem logo depois
+       do topo, porque é o que mais importa. */
+    grid-template-areas:
+        "topo"
+        "play"
+        "controle"
+        "fila";
+}
+
+@media (min-width: 800px) {
+
+    .playlist {
+        grid-template-columns: 1fr 2fr;
+        grid-template-areas:
+            "topo topo"
+            "play fila"
+            "controle fila";
+    }
+
+}
+
+
