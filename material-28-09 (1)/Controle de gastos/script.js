@@ -10,7 +10,8 @@ const telaQuantidade = document.querySelector('.quantidade');
 const telaMedia = document.querySelector('.media');
 const telaMaior = document.querySelector('.maior');
 const telaRestante = document.querySelector('.restante');
-const telaHistorico = document.querySelector('.historico');
+//const telaHistorico = document.querySelector('.historico');
+const lista = document.querySelector('.lista')
 const ORCAMENTO = 50;
 
 let total = 0;              // acumulador
@@ -79,16 +80,29 @@ formulario.addEventListener('submit', function (evento) {
 
 //lista gasto
 
-const listaGasto = [];
+const listaGasto = [''];
 const fila = [''];
 
-function mostrarListaGasto(listaGasto, fila) {
-    if (musica === '') {
-        return 'Escreva o nome da música.';
+function montarItensDaFila(fila) {
+    let itens = '';
+    for (let i = 0; i < fila.length; i++) {
+        itens = itens + `<li>${fila[i]}</li>`;
     }
-    if (fila.includes(musica)) {
-        return musica + ' já está na lista.';
+    return itens;
+}
+
+function mostrarListaGasto(listaGasto, fila) {
+    if (campoDescricao, campoValor === '') {
+        return '';
+    }
+    if (lista.includes(campoDescricao, campoValor)) {
+        return fila + listaGasto;
     }
     return '';
 }
 
+function mostrarFila() {
+    lista.innerHTML = mostrarListaGasto(fila);
+}
+
+mostrarFila();
