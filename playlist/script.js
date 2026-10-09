@@ -72,6 +72,10 @@ function lerMusica() {
     return campoMusica.value.trim();
 }
 
+function limparCampo() {
+    campoMusica.value = '';
+}
+
 mostrarFila();
 
 
