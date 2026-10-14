@@ -5,20 +5,26 @@ const campoDescricao = document.querySelector('.campo-descricao');
 const campoValor = document.querySelector('.campo-valor');
 const erro = document.querySelector('.erro');
 
+const botaoDesfazer = document.querySelector('.botaoDesfazer');
+
 const telaTotal = document.querySelector('.total');
+const telaAviso = document.querySelector('.aviso');
 const telaQuantidade = document.querySelector('.quantidade');
 const telaMedia = document.querySelector('.media');
 const telaMaior = document.querySelector('.maior');
 const telaRestante = document.querySelector('.restante');
-//const telaHistorico = document.querySelector('.historico');
+const telaFila = document.querySelector('.telaFila')
 const lista = document.querySelector('.lista')
 const ORCAMENTO = 50;
+const listaGasto = [];
+
 
 let total = 0;              // acumulador
-let quantidade = 0;         // contador
+let numeros = 0;         // contador
 let maiorValor = 0;         // o maior visto até agora
 let maiorDescricao = '';
 let historico = '';         // acumulador de texto
+let volume = 0;            
 
 
 /* -----------------------------------------------------------
@@ -37,14 +43,17 @@ formulario.addEventListener('submit', function (evento) {
         erro.textContent = 'O valor precisa ser maior que zero.';
     } else {
 
+        listaGasto .push({'descricao':descricao,'valor':valor});
+        mostrarFila();
         erro.textContent = '';
         total = total + valor;
         if (valor > maiorValor) {
             maiorValor = valor;
             maiorDescricao = descricao;
         }
-        quantidade = quantidade + 1;
-        const media = total / quantidade;
+        //ALTERAÇÕES QUANTIDADE
+        numeros = numeros + 1;
+        const media = total / numeros;
         historico = historico + descricao + ' — R$ ' + valor.toFixed(2).replace('.', ',') + '\n';
         const restante = ORCAMENTO - total;
 
@@ -65,10 +74,9 @@ formulario.addEventListener('submit', function (evento) {
         // ===== mostrar na tela ============================
 
         telaTotal.textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
-        telaQuantidade.textContent = quantidade;
+        telaQuantidade.textContent = numeros;
         telaMedia.textContent = 'R$ ' + media.toFixed(2).replace('.', ',');
         telaMaior.textContent = maiorDescricao + ' — R$ ' + maiorValor.toFixed(2).replace('.', ',');
-        telaHistorico.textContent = historico;
 
         // limpar para o próximo
         campoDescricao.value = '';
@@ -80,29 +88,72 @@ formulario.addEventListener('submit', function (evento) {
 
 //lista gasto
 
-const listaGasto = [''];
-const fila = [''];
-
-function montarItensDaFila(fila) {
+function mostrarListaGasto(listaGasto) {
     let itens = '';
-    for (let i = 0; i < fila.length; i++) {
-        itens = itens + `<li>${fila[i]}</li>`;
+    for (let i = 0; i < listaGasto.length; i++) {
+        itens = itens + `<li>${listaGasto[i].descricao} - ${listaGasto[i].valor}</li>`;
     }
     return itens;
 }
 
-function mostrarListaGasto(listaGasto, fila) {
-    if (campoDescricao, campoValor === '') {
-        return '';
-    }
-    if (lista.includes(campoDescricao, campoValor)) {
-        return fila + listaGasto;
-    }
-    return '';
-}
-
 function mostrarFila() {
-    lista.innerHTML = mostrarListaGasto(fila);
+     telaFila.textContent = montarTextoDaContagem(listaGasto.length);
+    lista.innerHTML = mostrarListaGasto(listaGasto);
 }
 
 mostrarFila();
+
+//telaFila
+
+function montarTextoDaContagem(volume) {
+    if (volume === 0) {
+        return 'Nenhum gasto.';
+    }
+    if (volume === 1) {
+        return '1 gasto registrado.';
+    }
+    return volume + ' gastos registrados.';
+}
+
+// alterações calculadora
+
+function calcularTotal(listaGasto) {
+    let soma = 0;
+    for (let i = 0; i < listaGasto.length; i++) {
+        soma = soma + listaGasto[i].listaGasto;
+    }
+    return soma;
+}
+
+function encontrarMaiorValor(listaGasto) {
+    let maior = gasto[0];
+    for (let i = 1; i < listaGasto.length; i++) {
+        if (gasto[i].gasto > maior.gasto) {
+            maior = gasto[i];
+        }
+    }
+    return maior;
+}
+
+function encontrarMenorValor(listaGasto) {
+    let menor = gasto[0];
+    for (let i = 1; i < listaGasto.length; i++) {
+        if (gasto[i].gasto < menor.gasto) {
+            menor = gasto[i];
+        }
+    }
+    return menor;
+}    
+
+//Botton
+
+botaoDesfazer.addEventListener('click', function () {
+    console.log('clicou em Desfazer última');
+    if (listaGasto.length === 0) {
+        telaAviso.textContent = 'Não há nenhum gasto na lista.';
+    } else {
+        const removido = listaGasto.pop();
+        telaAviso.textContent = removido.descricao + ' saiu da lista.';
+        mostrarFila();
+    }
+});
