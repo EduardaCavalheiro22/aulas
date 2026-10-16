@@ -1,0 +1,124 @@
+/* Sem estilização ainda: bordas e fundos só para enxergar
+   onde cada área do grid começa e termina. */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 16px;
+    font-family: Arial, sans-serif;
+}
+
+.lanchonete {
+    display: grid;
+    gap: 12px;
+    max-width: 960px;
+    margin: 0 auto;
+
+    /* Celular: tudo empilhado. A chamada vem logo depois
+       do topo, porque é o que mais importa. */
+    grid-template-areas:
+        "topo"
+        "chamada"
+        "cadastro"
+        "espera";
+}
+
+.topo     { grid-area: topo; }
+.cadastro { grid-area: cadastro; }
+.espera   { grid-area: espera; }
+.chamada  { grid-area: chamada; }
+
+.topo,
+.cadastro,
+.espera,
+.chamada {
+    padding: 12px;
+    border: 2px solid #333333;
+}
+
+.topo     { background-color: #ffe8cc; }
+.cadastro { background-color: #e7f5ff; }
+.espera   { background-color: #ebfbee; }
+.chamada  { background-color: #fff0f6; }
+
+
+/* A lista de espera */
+
+.lista li {
+    padding: 8px;
+}
+
+/* Linhas zebradas: os itens pares (2º, 4º, 6º...) */
+.lista li:nth-child(even) {
+    background-color: #ffffff;
+}
+
+/* O primeiro da lista é o próximo a ser chamado */
+.lista li:first-child {
+    font-weight: bold;
+}
+
+
+/* O botão desabilitado com cara de desabilitado */
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+
+/* A partir de 800px: três colunas, a do meio mais larga. */
+
+@media (min-width: 800px) {
+
+    .lanchonete {
+        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-areas:
+            "topo     topo   topo"
+            "cadastro espera chamada";
+    }
+
+}
+
+
+/* O botão de cada item: só o X, sem fundo nem borda.
+   O X usa currentColor, então ele tem a cor do texto
+   do botão: mudando o color, o X muda junto. */
+.botao-remover {
+    margin-left: 8px;
+    padding: 2px;
+    border: none;
+    border-radius: 4px;
+    background-color: transparent;
+    color: #888888;
+    line-height: 0;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.botao-remover:hover {
+    color: #c62828;
+    background-color: #ffe3e3;
+}
+
+.botao-remover:focus-visible {
+    outline: 2px solid #c62828;
+}
+
+
+/* A etiqueta criada pelo JavaScript no primeiro da lista */
+.etiqueta {
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background-color: #333333;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.lista-chamados {
+    color: #666666;
+}
