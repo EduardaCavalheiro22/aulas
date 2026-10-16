@@ -73,7 +73,6 @@ const botaoDesfazer = document.querySelector('.botao-desfazer');
 const telaContagem = document.querySelector('.contagem');
 const telaMusicaAtual = document.querySelector('.musica-atual');
 const telaLista = document.querySelector('.lista');
-const telaTocadas = document.querySelector('.tocadas')
 const telaMusicaTocada = document.querySelector('.musica-tocada')
 
 // A fila começa com três músicas, para já ter o que ver.
@@ -99,9 +98,9 @@ const iconeRemover = `
         telaLista.appendChild(criarItemDaEspera(fila[i], i));
     }
 
-    telaTocadas.innerHTML = '';
-    for (let i = 0; i < fila.length; i++) {
-        telaTocadas.appendChild(criarItemDoChamado(fila[i]));
+    telaLista.innerHTML = '';
+    for (let i = 0; i < filaTocadas.length; i++) {
+        telaLista.appendChild(criarItemDoChamado(filaTocadas[i]));
     }
 
     if (fila.length === 0) {
@@ -125,36 +124,6 @@ function limparCampo() {
 }
 
 renderizar();
-/*
-    telaLista.innerHTML = '';
-    telaContagem.textContent = montarTextoDaContagem(fila.length);
-    for (let i = 0; i < fila.length; i++) {
-        telaLista.appendChild(criarItemDaEspera(fila[i], i));
-    }
-    botaoProxima.disabled = fila.length === 0;
-}
-
-function lerMusica() {
-    return campoMusica.value.trim();
-}
-
-function limparCampo() {
-    campoMusica.value = '';
-}
-
-telaTocadas.innerHTML = '';
-    for (let i = 0; i < filaTocadas.length; i++) {
-        telaTocadas.appendChild(criarItemDoChamado(filaTocadas[i]));
-    }
-
- if (filaTocadas.length === 0) {
-        telaMusicaTocada.textContent = 'Nenhuma';
-    } else {
-        telaMusicaTocada.textContent = filaTocadas[filaTocadas.length - 1];
-    }
-
-renderizar();
-/*
 
 /* -----------------------------------------------------------
    Escutar
