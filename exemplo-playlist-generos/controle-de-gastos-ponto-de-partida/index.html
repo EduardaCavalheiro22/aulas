@@ -81,20 +81,33 @@
         </section>
 
         <section class="cartao categorias-cartao">
-            <h2>Por categoria</h2>
-            <ul class="categorias"></ul>
-        </section>
+           <label for="ordenacao-gastos">Ordenar por:</label>
 
-       <section class="cartao historico-cartao">
-    <h2>Histórico</h2>
+<select id="ordenacao-gastos">
+    <option value="chegada">Ordem de registro</option>
+    <option value="titulo-az">Descrição (A-Z)</option>
+    <option value="titulo-za">Descrição (Z-A)</option>
+    <option value="categoria">Categoria</option>
+    <option value="valor-menor">Menor valor</option>
+    <option value="valor-maior">Maior valor</option>
+</select>
 
-    <label for="filtro-categoria">Mostrar:</label>
+<label for="filtro-categoria">Mostrar:</label>
 <select id="filtro-categoria">
     <option value="Todas">Todas as categorias</option>
     <option value="Alimentacao">Só Alimentação</option>
     <option value="Transporte">Só Transporte</option>
     <option value="Lazer">Só Lazer</option>
 </select>
+
+    <section class="generos">
+            <h2>Por gênero</h2>
+            <ul class="lista-generos"></ul>
+        </section>
+        </section>
+
+       <section class="cartao historico-cartao">
+    <h2>Histórico</h2>
 
     <table class="tabela-historico">
         <caption>Todos os gastos, na ordem em que entraram</caption>

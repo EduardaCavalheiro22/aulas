@@ -17,10 +17,49 @@
 /* -----------------------------------------------------------
    Funções que só devolvem
    ----------------------------------------------------------- */
+   const seletorOrdenacao = document.getElementById('ordenacao-gastos');
+
+   //Ordenar de A-Z
+function ordenarGastos(gastos, ordem) {
+    if (ordem === 'titulo-az') {
+        return gastos.toSorted((a, b) =>
+            a.descricao.localeCompare(b.descricao)
+        );
+    }
+    if (ordem === 'titulo-za') {
+        return gastos.toSorted((a, b) =>
+            b.descricao.localeCompare(a.descricao)
+        );
+    }
+    if (ordem === 'categoria') {
+        return gastos.toSorted((a, b) =>
+            a.categoria.localeCompare(b.categoria)
+        );
+    }
+    if (ordem === 'valor-menor') {
+        return gastos.toSorted((a, b) =>
+            a.valor - b.valor
+        );
+    }
+    if (ordem === 'valor-maior') {
+        return gastos.toSorted((a, b) =>
+            b.valor - a.valor
+        );
+    }
+    return gastos;
+}
+
+//guarda e executa função ordemEscolhida
+seletorOrdenacao.addEventListener('change', function () {
+    ordemEscolhida = seletorOrdenacao.value;
+    renderizarHistorico();
+});
+
 
 function formatarReais(valor) {
     return 'R$ ' + valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
+
 
 function calcularMedia(total, quantidade) {
     if (quantidade === 0) {
@@ -29,9 +68,11 @@ function calcularMedia(total, quantidade) {
     return total / quantidade;
 }
 
+
 function montarTextoDoGasto(gasto) {
     return gasto.descricao + ' — ' + formatarReais(gasto.valor);
 }
+
 
 function montarMensagemDoOrcamento(restante) {
     if (restante >= 0) {
@@ -40,9 +81,11 @@ function montarMensagemDoOrcamento(restante) {
     return 'Passou ' + formatarReais(-restante) + ' do orçamento';
 }
 
+
 function passouDoOrcamento(total, orcamento) {
     return total > orcamento;
 }
+
 
 function montarOpcoesDeCategorias(categorias) {
     let opcoes = '<option value="">Escolha a categoria</option>';
@@ -54,6 +97,7 @@ function montarOpcoesDeCategorias(categorias) {
     return opcoes;
 }
 
+
 // calcularTotal([{ valor: 12.5 }, { valor: 30 }]) → 42.5
 function calcularTotal(gastos) {
     let total = 0;
@@ -62,6 +106,7 @@ function calcularTotal(gastos) {
     }
     return total;
 }
+
 
 function calcularMaiorGasto(gastos) {
     let maior = gastos[0];
@@ -73,6 +118,7 @@ function calcularMaiorGasto(gastos) {
     return maior;
 }
 
+
 function calcularMenorGasto(gastos) {
     let menor = gastos[0];
     for (let i = 1; i < gastos.length; i++) {
@@ -83,6 +129,7 @@ function calcularMenorGasto(gastos) {
     return menor;
 }
 
+
 function calcularTotalDaCategoria(gastos, nomeDaCategoria) {
     let total = 0;
     for (let i = 0; i < gastos.length; i++) {
@@ -92,6 +139,7 @@ function calcularTotalDaCategoria(gastos, nomeDaCategoria) {
     }
     return total;
 }
+
 
 function renderizarCategorias() {
     telaCategorias.innerHTML = '';
@@ -145,6 +193,7 @@ function renderizarCategorias() {
     }
 }
 
+
 // Devolve o problema do gasto novo, ou '' se estiver tudo certo.
 function montarErroDoGasto(gasto) {
     if (gasto.descricao.trim() === '') {
@@ -162,6 +211,8 @@ const formulario = document.querySelector('.formulario');
 const campoDescricao = document.querySelector('.campo-descricao');
 const campoValor = document.querySelector('.campo-valor');
 const campoCategoria = document.querySelector('.campo-categoria');
+const telaGeneros = document.querySelector('.lista-generos');
+const campoGenero = document.querySelector('.campo-genero');
 const botaoDesfazer = document.querySelector('.botao-desfazer');
 const erro = document.querySelector('.erro');
 
@@ -176,12 +227,29 @@ const telaTotalRodape = document.querySelector('.total-rodape');
 const telaCategorias = document.querySelector('.categorias');
 const etiqueta = document.querySelector('.etiqueta');
 
+let ordemEscolhida = 'chegada';
 let categoriaEscolhida = 'Todas';
+const chave = 'controle-de-gastos';
+
+
 
 
 /* -----------------------------------------------------------
    Valores fixos e o que precisa ser lembrado
    ----------------------------------------------------------- */
+   function salvarGastos(gastos) {
+  localStorage.setItem(chave, JSON.stringify(gastos));
+}
+
+function carregarGastos() {
+  const dadosSalvos = localStorage.getItem(chave);
+  if (dadosSalvos === null) {
+    return [];
+  }
+
+  return JSON.parse(dadosSalvos);
+}
+
 
 const ORCAMENTO = 50;
 
@@ -198,18 +266,20 @@ const iconeApagar = `
     </svg>`;
 
 // A única coisa que o programa lembra.
-const gastos = [];
+const gastos = carregarGastos();
 
 
 /* -----------------------------------------------------------
    Funções que criam elementos
    ----------------------------------------------------------- */
 
+
 function criarCelula(texto) {
     const celula = document.createElement('td');
     celula.textContent = texto;
     return celula;
 }
+
 
 // A linha <tr> de um gasto, com o botão de apagar.
 function criarLinhaDoHistorico(gasto, posicao) {
@@ -259,6 +329,7 @@ function lerCategoriaEscolhida() {
     return CATEGORIAS[Number(campoCategoria.value)];
 }
 
+
 function renderizarResumo() {
     const total = calcularTotal(gastos);
 
@@ -275,15 +346,16 @@ function renderizarResumo() {
     }
 }
 
+
 function renderizarHistorico() {
+    salvarGastos(gastos);
     const historico = document.querySelector('.historico');
     const legenda = document.querySelector('.tabela-historico caption');
 
-    const gastosFiltrados = filtrarGastos(
-        gastos,
-        categoriaEscolhida
-    );
-
+   const gastosFiltrados = ordenarGastos(
+    filtrarGastos(gastos, categoriaEscolhida),
+    ordemEscolhida
+);
     historico.innerHTML = '';
 
     for (let i = 0; i < gastosFiltrados.length; i++) {
@@ -307,6 +379,7 @@ function renderizarHistorico() {
         formatarReais(calcularTotal(gastosFiltrados));
 }
 
+
 function renderizarOrcamento() {
     const total = calcularTotal(gastos);
     telaRestante.textContent = montarMensagemDoOrcamento(ORCAMENTO - total);
@@ -320,22 +393,25 @@ function renderizarOrcamento() {
     }
 }
 
+
 function renderizarCategorias() {
     telaCategorias.innerHTML = montarOpcoesDeCategorias(CATEGORIAS, gastos);
 }
+
 
 // A tela inteira. Todo ouvinte termina chamando esta função.
 function renderizar() {
     renderizarResumo();
     renderizarHistorico();
     renderizarOrcamento();
-    renderizarCategorias();
     botaoDesfazer.disabled = gastos.length === 0;
 }
+
 
 function limparFormulario() {
     formulario.reset();
 }
+
 
 campoCategoria.innerHTML = montarOpcoesDeCategorias(CATEGORIAS);
 renderizar();
@@ -363,15 +439,18 @@ formulario.addEventListener('submit', function (evento) {
     }
 });
 
+
 botaoDesfazer.addEventListener('click', function () {
     gastos.pop();
     renderizar();
 });
 
+
 function passaNoFiltro(gasto, categoria) {
     return categoria === 'Todas' ||
            gasto.categoria === categoria;
 }
+
 
 function filtrarGastos(gastos, categoria) {
     return gastos.filter(function (gasto) {
@@ -379,17 +458,74 @@ function filtrarGastos(gastos, categoria) {
     });
 }
 
-const filtroCategoria = document.getElementById('filtro-categoria');
 
+const filtroCategoria = document.getElementById('filtro-categoria');
 filtroCategoria.addEventListener('change', function () {
     categoriaEscolhida = filtroCategoria.value;
     renderizarHistorico();
 });
 
+
 function calcularPorcentagem(parte, total) {
     if (total === 0) {
         return 0;
     }
-
     return (parte / total) * 100;
 }
+
+function contarDoGenero(musicas, genero) {
+    let quantidade = 0;
+    for (let i = 0; i < musicas.length; i++) {
+        if (musicas[i].genero === genero) {
+            quantidade = quantidade + 1;
+        }
+    }
+    return quantidade;
+}
+
+function criarBarraDoGenero(genero, quantidade) {
+    const porcentagem = calcularPorcentagem(quantidade, gastos.length);
+
+    const item = document.createElement('li');
+    item.setAttribute('data-genero', genero);
+
+    const legenda = document.createElement('div');
+    legenda.classList.add('legenda-da-barra');
+
+    const gasto = document.createElement('span');
+    gasto.textContent = genero;
+
+    const numero = document.createElement('span');
+    numero.textContent = quantidade + ' (' + Math.round(porcentagem) + '%)';
+
+    legenda.appendChild(gasto);
+    legenda.appendChild(numero);
+
+    // O trilho é só desenho: quem lê a tela já ouviu o número
+    // na legenda, então o leitor de tela pode pular o trilho.
+    const trilho = document.createElement('div');
+    trilho.classList.add('trilho');
+    trilho.setAttribute('aria-hidden', 'true');
+
+    const barra = document.createElement('div');
+    barra.classList.add('barra');
+
+    // A única linha de CSS que o JavaScript escreve: a largura.
+    barra.style.width = porcentagem + '%';
+
+    trilho.appendChild(barra);
+    item.appendChild(legenda);
+    item.appendChild(trilho);
+    return item;
+}
+
+ telaGeneros.innerHTML = '';
+    for (let i = 0; i < GENEROS.length; i++) {
+        const quantidade = contarDoGenero(gastos, GENEROS[i]);
+        telaGeneros.appendChild(criarBarraDoGenero(GENEROS[i], quantidade));
+    }
+
+    telaContagem.textContent = montarTextoDaContagem(gasto.length, gastos.length);
+
+renderizar();
+
