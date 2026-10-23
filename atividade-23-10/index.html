@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de entregas</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+
+    <header>
+<h1>Agenda de Entregas</h1>
+<p>Provas, trabalhos e apresentações em um só lugar.</p>
+    </header>
+
+
+<main>
+        <section class="resumo">
+<h1>Resumo</h1>
+<p class="pendentes">Pendentes:</p>
+<p class="proximaEntrega">Próxima entrega:</p>
+        </section>
+
+
+<fieldset>
+    <legend>Nova Entrega</legend>
+        <section class="novaEntrega">
+            <form class="formulario">
+    <p>
+        <label for="materia">Matéria:</label>
+        <input type="text" id="materia" class="campo-materia" placeholder="Ex.: Matemática">
+    </p>
+
+
+    <label for="tipo">Tipo:</label>
+    <select id="tipo">
+    <option value="novalue">Escolha um tipo</option>
+    <option value="prova">Prova</option>
+    <option value="trabalho">Trabalho</option>
+    <option value="apresentacao">Apresentacao</option>
+    </select>
+
+    <p>
+        <label for="data">Data:</label>
+        <input type="date" id="data">
+    </p>
+
+    <button type="submit">Adicionar</button>
+          </form>
+       </section>
+</fieldset>
+
+
+       <section class = "entregas">
+<h1>Próximas Entregas</h1>
+
+<label for="mostrar">Mostrar:</label>
+    <select id="mostrar">
+    <option value="escolha">Escolha um tipo</option>
+    <option value="todos">Tudo</option>
+    <option value="soProva">So Provas</option>
+    <option value="soTrabalho">So Trabalhos</option>
+    <option value="soApresentacao">So Apresentacoes</option>
+    </select>
+       </section>
+
+<ul class="lista-entregas">
+        <li class="entrega" data-tipo="trabalho">
+            <span class="data">25/10/2026</span>
+            <strong>Português</strong>
+            <span class="tipo">Trabalho</span>
+            <button class="botao-feita">Feita</button>
+            <button class="botao-apagar">Apagar</button>
+        </li>
+
+        <li class="entrega feita" data-tipo="prova">
+            <span class="data">26/10/2026</span>
+            <strong>Matemática</strong>
+            <span class="tipo">Prova</span>
+            <button class="botao-feita">Feita</button>
+            <button class="botao-apagar">Apagar</button>
+        </li>
+
+        <li class="entrega" data-tipo="apresentacao">
+            <span class="data">28/10/2026</span>
+            <strong>Inglês</strong>
+            <span class="tipo">Apresentação</span>
+            <button class="botao-feita">Feita</button>
+            <button class="botao-apagar">Apagar</button>
+        </li>
+
+        <li class="entrega" data-tipo="trabalho">
+            <span class="data">30/10/2026</span>
+            <strong>História</strong>
+            <span class="tipo">Trabalho</span>
+            <button class="botao-feita">Feita</button>
+            <button class="botao-apagar">Apagar</button>
+        </li>
+</ul>
+
+
+</main>
+
+
+
+    <footer>
+<p>Feito por Eduarda Cavalheiro</p>
+    </footer>
