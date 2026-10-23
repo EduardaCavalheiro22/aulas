@@ -18,16 +18,19 @@
     </header>
 
 
-<main>
+<main class="app">
         <section class="resumo">
-<h1>Resumo</h1>
-<p class="pendentes">Pendentes:</p>
-<p class="proximaEntrega">Próxima entrega:</p>
+<h1 class="titulo">Resumo</h1>
+
+<div class="cartoes">
+<h2 class="indicador">Pendentes:</h2>
+<h2 class="indicador">Próxima entrega:</h2>
+</div>
         </section>
 
 
-<fieldset>
-    <legend>Nova Entrega</legend>
+<section class="nova">
+    <h1>Nova Entrega</h1>
         <section class="novaEntrega">
             <form class="formulario">
     <p>
@@ -52,7 +55,7 @@
     <button type="submit">Adicionar</button>
           </form>
        </section>
-</fieldset>
+    </section>
 
 
        <section class = "entregas">
@@ -66,9 +69,8 @@
     <option value="soTrabalho">So Trabalhos</option>
     <option value="soApresentacao">So Apresentacoes</option>
     </select>
-       </section>
 
-<ul class="lista-entregas">
+<ul style="list-style: none;" class="lista-entregas;">
         <li class="entrega" data-tipo="trabalho">
             <span class="data">25/10/2026</span>
             <strong>Português</strong>
@@ -77,7 +79,7 @@
             <button class="botao-apagar">Apagar</button>
         </li>
 
-        <li class="entrega feita" data-tipo="prova">
+        <li class="entrega" data-tipo="prova">
             <span class="data">26/10/2026</span>
             <strong>Matemática</strong>
             <span class="tipo">Prova</span>
@@ -101,6 +103,7 @@
             <button class="botao-apagar">Apagar</button>
         </li>
 </ul>
+ </section>
 
 
 </main>

@@ -1,0 +1,181 @@
+:root {
+    --cor-fundo: #f4f1ec;
+    --cor-cartao: #ffffff;
+    --cor-texto: #2b2d42;
+    --cor-textoSuave: #6c6f86;
+    --cor-titulos: #253858;
+    --cor-botao: #ff7a59;
+    --cor-bordas: #e3ded5;
+
+    /* Uma cor para cada tipo */
+    --cor-prova: #e03131;
+    --cor-trabalho: #1971c2;
+    --cor-apresentacao: #9c36b5;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 24px 16px;
+    background-color: var(--cor-fundo);
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif, 16px;
+    color: var(--cor-texto);
+}
+
+header {
+    text-align: center;
+    padding: 24px 16px;
+    background-color: var(--cor-titulos);
+    color: var(--cor-fundo)
+}
+
+footer {
+    text-align: center;
+    color: var(--cor-textoSuave);
+}
+
+/* Celular*/
+.app {
+    display: grid;
+    gap: 16px;
+    max-width: 880px;
+    margin: 0 auto;
+    grid-template-areas:
+        "resumo"
+        "nova"
+        "entregas";
+}
+
+.resumo       { grid-area: resumo; }
+.nova        { grid-area: nova; }
+.entregas    { grid-area: entregas; }
+
+h1 {
+    margin: 0;
+}
+
+.resumo,
+.nova,
+.entregas {
+    padding: 20px;
+    border-radius: 12px;
+    background-color: var(--cor-cartao);
+    h1 {
+        color: var(--cor-titulos);
+    }
+    h2 {
+        color: var(--cor-textoSuave);
+    }
+}
+
+h2 {
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    color:var(--cor-titulos)
+}
+
+.formulario p {
+    margin: 0 0 12px 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d6cce6;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #ffffff;
+}
+
+.formulario button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--cor-destaque);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.formulario button:hover {
+    background-color: #6420d6;
+}
+
+h2.pendentes,
+h2.proximaEntrega {
+    /*display: flex;
+    justify-content: space-between;
+    align-items: center;*/
+    min-height: 20px;
+    background-color: var(--cor-fundo);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.indicador {
+    flex: 1;
+    background-color: var(--cor-fundo);
+       min-height: 20px;
+    padding: 20px;
+    border-radius: 12px;
+    gap: 20px;
+    width: 100%;
+}
+
+    .cartoes {
+    display: flex;
+    align-items: center;
+    min-height: 20px;
+    padding: 20px;
+    border-radius: 12px;
+    gap: 20px;
+    width: 100%;
+}
+
+@media (min-width: 800px) {
+
+    .app {
+        grid-template-columns: 1fr 2fr;
+        grid-template-areas:
+            "resumo entregas"
+            "nova entregas";
+    }
+}
+
+.formulario button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--cor-botao);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.formulario button:hover {
+    background-color: var(--cor-texto);
+}
+
+.entrega {
+    display: flex;
+    flex: 1;
+    background-color: var(--cor-fundo);
+    padding: 12px;
+    border-radius: 8px;
+    gap: 20px;
+    align-items: center;
+}
