@@ -21,23 +21,35 @@ body {
     margin: 0;
     padding: 24px 16px;
     background-color: var(--cor-fundo);
-    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif, 16px;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
     color: var(--cor-texto);
+    line-height: 1.5;
 }
 
 header {
     text-align: center;
     padding: 24px 16px;
+    margin-bottom: 24px;
     background-color: var(--cor-titulos);
-    color: var(--cor-fundo)
+    color: var(--cor-fundo);
+    border-radius: 12px;
+}
+
+header h1 {
+    margin: 0 0 8px;
+}
+
+header p {
+    margin: 0;
 }
 
 footer {
     text-align: center;
     color: var(--cor-textoSuave);
+    margin-top: 24px;
 }
 
-/* Celular*/
 .app {
     display: grid;
     gap: 16px;
@@ -49,36 +61,40 @@ footer {
         "entregas";
 }
 
-.resumo       { grid-area: resumo; }
-.nova        { grid-area: nova; }
-.entregas    { grid-area: entregas; }
+.resumo {
+    grid-area: resumo;
+}
 
-h1 {
-    margin: 0;
+.nova {
+    grid-area: nova;
+}
+
+.entregas {
+    grid-area: entregas;
 }
 
 .resumo,
 .nova,
 .entregas {
+    min-width: 0;
     padding: 20px;
     border-radius: 12px;
     background-color: var(--cor-cartao);
-    h1 {
-        color: var(--cor-titulos);
-    }
-    h2 {
-        color: var(--cor-textoSuave);
-    }
+    box-shadow: 0 2px 8px rgba(43, 45, 66, 0.05);
+}
+
+h1 {
+    color: var(--cor-fundo);
 }
 
 h2 {
-    margin: 0 0 12px 0;
+    margin: 0 0 16px;
     font-size: 18px;
-    color:var(--cor-titulos)
+    color: var(--cor-titulos);
 }
 
 .formulario p {
-    margin: 0 0 12px 0;
+    margin: 0 0 12px;
 }
 
 label {
@@ -93,55 +109,16 @@ select {
     padding: 10px 12px;
     border: 1px solid #d6cce6;
     border-radius: 8px;
+    font-family: inherit;
     font-size: 16px;
+    color: var(--cor-texto);
     background-color: #ffffff;
 }
 
-.formulario button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background-color: var(--cor-destaque);
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.formulario button:hover {
-    background-color: #6420d6;
-}
-
-.indicador {
-    flex: 1;
-    background-color: var(--cor-fundo);
-    color: var(--cor-textoSuave);
-       min-height: 20px;
-    padding: 20px;
-    border-radius: 12px;
-    gap: 20px;
-    width: 100%;
-}
-
-    .cartoes {
-    display: flex;
-    align-items: center;
-    min-height: 20px;
-    padding: 20px;
-    border-radius: 12px;
-    gap: 20px;
-    width: 100%;
-}
-
-@media (min-width: 800px) {
-
-    .app {
-        grid-template-columns: 1fr 2fr;
-        grid-template-areas:
-            "resumo entregas"
-            "nova entregas";
-    }
+input:focus,
+select:focus {
+    outline: 2px solid var(--cor-trabalho);
+    outline-offset: 2px;
 }
 
 .formulario button {
@@ -154,89 +131,213 @@ select {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .formulario button:hover {
     background-color: var(--cor-texto);
 }
 
-.entrega {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 12px;
+.totalPendentes,
+.proximaEntregas {
+    width: 100%;
+    min-height: 60px;
+    margin-bottom: 12px;
+    padding: 16px;
+    border-radius: 12px;
+    background-color: var(--cor-fundo);
+    color: var(--cor-textoSuave);
 }
+
+.totalPendentes p,
+.proximaEntregas p {
+    margin: 0;
+}
+
+.entregas > div {
+    margin-bottom: 16px;
+}
+
+.entregas > div label {
+    margin-bottom: 6px;
+}
+
+.listaEntregas {
+    display: block;
+    width: 100%;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.entrega {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 16px;
+    border: 1px solid var(--cor-bordas);
+    border-radius: 8px;
+    background-color: var(--cor-cartao);
+}
+
 
 .entrega::before {
-  content: "";
-  width: 6px;
-  align-self: stretch;
-  background-color: #ccc;
-  border-radius: 4px;
+    content: "";
+    width: 6px;
+    min-width: 6px;
+    align-self: stretch;
+    background-color: #ccc;
+    border-radius: 4px;
 }
 
-.entrega .informacoes {
-  flex: 1;
-}
-
-.etiqueta .trabalho {
-    padding: 4px 8px;
-  border-radius: 12px;
-    background-color: var(--cor-trabalho);
-}
-
-.etiqueta .prova {
-    padding: 4px 8px;
-  border-radius: 12px;
+.entrega[data-tipo="prova"]::before {
     background-color: var(--cor-prova);
 }
 
-.etiqueta .apresentacao {
-    padding: 4px 8px;
-  border-radius: 12px;
+.entrega[data-tipo="trabalho"]::before {
+    background-color: var(--cor-trabalho);
+}
+
+.entrega[data-tipo="apresentacao"]::before {
     background-color: var(--cor-apresentacao);
 }
 
-.entregaFeita {
-  opacity: 0.5;
-   display: flex;
-  align-items: center;
-  gap: 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 12px;
+.entrega .data {
+    flex-shrink: 0;
+    color: var(--cor-textoSuave);
+    font-size: 14px;
+    white-space: nowrap;
 }
 
-.entregaFeita .informacoes strong {
-  text-decoration: line-through;
+.entrega .informacoes {
+    flex: 1;
+    min-width: 0;
 }
 
-.entregaFeita::before{
-  content: "";
-  width: 6px;
-  align-self: stretch;
-  background-color: #ccc;
-  border-radius: 4px;
+.entrega .informacoes strong {
+    display: block;
+    overflow-wrap: anywhere;
+    color: var(--cor-titulos);
+}
+
+.etiqueta {
+    margin-top: 6px;
+}
+
+.etiqueta .prova,
+.etiqueta .trabalho,
+.etiqueta .apresentacao {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.etiqueta .prova {
+    background-color: var(--cor-prova);
+}
+
+.etiqueta .trabalho {
+    background-color: var(--cor-trabalho);
+}
+
+.etiqueta .apresentacao {
+    background-color: var(--cor-apresentacao);
+}
+
+.botoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
 }
 
 .botoes button {
-  cursor: pointer;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 12px;
-  transition: background-color 0.2s, transform 0.2s;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition:
+        background-color 0.2s,
+        transform 0.2s;
 }
 
 .botoes button:hover {
-  filter: brightness(0.9);
-  transform: translateY(-1px);
+    filter: brightness(0.9);
+    transform: translateY(-1px);
 }
 
 .botoes button:focus-visible {
-  outline: 3px solid #222;
-  outline-offset: 3px;
+    outline: 3px solid var(--cor-titulos);
+    outline-offset: 3px;
+}
+
+.botoes .feita {
+    background-color: var(--cor-trabalho);
+    color: #ffffff;
+}
+
+.botoes .apagar {
+    background-color: var(--cor-botao);
+    color: #ffffff;
+}
+
+.entrega.feita,
+.entregaFeita {
+    opacity: 0.55;
+}
+
+.entrega.feita .informacoes strong,
+.entregaFeita .informacoes strong {
+    text-decoration: line-through;
+}
+
+@media (min-width: 800px) {
+    .app {
+        grid-template-columns: 1fr 2fr;
+        grid-template-areas:
+            "resumo entregas"
+            "nova entregas";
+        align-items: start;
+    }
+
+    .entrega {
+        gap: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 12px;
+    }
+
+    .resumo,
+    .nova,
+    .entregas {
+        padding: 16px;
+    }
+
+    .entrega {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .entrega .data {
+        min-width: 65px;
+    }
+
+    .entrega .informacoes {
+        flex: 1;
+    }
+
+    .botoes {
+        width: 100%;
+        padding-left: 16px;
+    }
 }

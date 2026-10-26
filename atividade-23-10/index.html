@@ -1,144 +1,91 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda de entregas</title>
+
+    <title>Agenda de Entregas</title>
+
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
 
 <body>
 
-
     <header>
-<h1>Agenda de Entregas</h1>
-<p>Provas, trabalhos e apresentações em um só lugar.</p>
+        <h1>Agenda de Entregas</h1>
+        <p>Provas, trabalhos e apresentações em um só lugar.</p>
     </header>
 
+    <main class="app">
 
-<main class="app">
         <section class="resumo">
-<h1 class="titulo">Resumo</h1>
+            <h2>Resumo</h2>
 
-<div class="cartoes">
-<p class="indicador">Pendentes: <strong>3</strong></p>
-<p class="indicador">Próxima entrega: <strong>Matemática -
-    28/10</strong>
-</p>
-</div>
+            <div class="totalPendentes">
+                <p id="totalPendentes">Pendentes: 0</p>
+            </div>
+
+            <div class="proximaEntregas">
+                <p id="proximaEntrega">
+                    Próxima entrega: Nada pendente
+                </p>
+            </div>
         </section>
 
+        <section class="nova">
+            <h2>Nova Entrega</h2>
 
-<section class="nova">
-    <h1>Nova Entrega</h1>
-        <section class="novaEntrega">
-            <form class="formulario">
-    <p>
-        <label for="materia">Matéria:</label>
-        <input type="text" id="materia" class="campo-materia" placeholder="Ex.: Matemática">
-    </p>
+            <form id="formulario" class="formulario">
 
+                <p>
+                    <label for="materia">Matéria:</label>
+                    <input type="text" id="materia" placeholder="Digite a matéria" required>
+                </p>
 
-    <label for="tipo">Tipo:</label>
-    <select id="tipo">
-    <option value="novalue">Escolha um tipo</option>
-    <option value="prova">Prova</option>
-    <option value="trabalho">Trabalho</option>
-    <option value="apresentacao">Apresentacao</option>
-    </select>
+                <p>
+                    <label for="tipo">Tipo:</label>
+                    <select id="tipo" required>
+                        <option value="">Escolha um tipo</option>
+                        <option value="prova">Prova</option>
+                        <option value="trabalho">Trabalho</option>
+                        <option value="apresentacao">Apresentação</option>
+                    </select>
+                </p>
 
-    <p>
-        <label for="data">Data:</label>
-        <input type="date" id="data">
-    </p>
+                <p>
+                    <label for="data">Data:</label>
+                    <input type="date" id="data" required>
+                </p>
 
-    <button type="submit">Adicionar</button>
-          </form>
-       </section>
-    </section>
+                <button type="submit">Adicionar</button>
 
+            </form>
+        </section>
 
-       <section class = "entregas">
-<h1>Próximas Entregas</h1>
+        <section class="entregas">
+            <h2>Próximas Entregas</h2>
 
-<label for="mostrar">Mostrar:</label>
-    <select id="mostrar">
-    <option value="escolha">Escolha um tipo</option>
-    <option value="todos">Tudo</option>
-    <option value="soProva">So Provas</option>
-    <option value="soTrabalho">So Trabalhos</option>
-    <option value="soApresentacao">So Apresentacoes</option>
-    </select>
+            <div>
+                <label for="mostrar">Mostrar:</label>
 
-<ul style="list-style: none;" class="lista-entregas;">
-        <li class="entregaFeita" data-tipo="trabalho">
-            <span class="data">25/10/2026</span>
-            <div class="informacoes">
-            <strong>Português</strong>
-            <div class="etiqueta">
-            <span class="trabalho">Trabalho</span>
-            </div>
-            </div>
-            <div class="botoes">
-            <button class="feita">Feita</button>
-            <button class="apagar">Apagar</button>
-            </div>
-        </li>
-
-        <li class="entrega" data-tipo="prova">
-            <span class="data">26/10/2026</span>
-             <div class="informacoes">
-                <strong>Matemática</strong>
-             <div class="etiqueta">
-            <span class="prova">Prova</span>
-            </div>
-            </div>
-            <div class="botoes">
-            <button class="feita">Feita</button>
-            <button class="apagar">Apagar</button>
-            </div>
-        </li>
-
-        <li class="entrega" data-tipo="apresentacao">
-            <span class="data">28/10/2026</span>
-
-             <div class="informacoes">
-            <strong>Inglês</strong>
-             <div class="etiqueta">
-            <span class="apresentacao">Apresentação</span>
-            </div>
+                <select id="mostrar">
+                    <option value="todos">Tudo</option>
+                    <option value="prova">Só Provas</option>
+                    <option value="trabalho">Só Trabalhos</option>
+                    <option value="apresentacao">Só Apresentações</option>
+                </select>
             </div>
 
-            <div class="botoes">
-            <button class="feita">Feita</button>
-            <button class="apagar">Apagar</button>
-            </div>
-        </li>
+            <ul class="listaEntregas" id="listaEntregas"></ul>
 
+        </section>
 
-        <li class="entrega" data-tipo="trabalho">
-            <span class="data">30/10/2026</span>
-             <div class="informacoes"></div>
-            <strong>História</strong>
-             <div class="etiqueta">
-            <span class="trabalho">Trabalho</span>
-            </div>
-            </div>
-            <div class="botoes">
-            <button class="feita">Feita</button>
-            <button class="apagar">Apagar</button>
-            </div>
-        </li>
-</ul>
- </section>
-
-
-</main>
-
-
+    </main>
 
     <footer>
-<p>Feito por Eduarda Cavalheiro</p>
+        <p>Feito por Eduarda Cavalheiro</p>
     </footer>
+
+</body>
+</html>
