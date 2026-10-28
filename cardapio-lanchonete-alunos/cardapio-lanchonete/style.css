@@ -165,3 +165,25 @@ select {
         grid-template-columns: 1fr;
     }
 }
+
+.card__promocao {
+    display: inline-block;
+    background-color: #c62828;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.card__preco s {
+    color: #777;
+    font-size: 0.9rem;
+    font-weight: normal;
+}
+
+.card__preco strong {
+    color: #238636;
+    font-size: 1.25rem;
+}

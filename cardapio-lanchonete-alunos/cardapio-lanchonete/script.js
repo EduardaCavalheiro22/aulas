@@ -24,20 +24,61 @@ function formatarMoeda(valor) {
     });
 }
 
+function aplicarPromocoes(itens, promocoes) {
+    return itens.map(function(item) {
+        const promocao = promocoes.find(function(p) {
+            return p.id === item.id;
+        });
+
+        if (promocao) {
+            item.desconto = promocao.desconto;
+            item.precoFinal =
+                item.preco * (1 - promocao.desconto / 100);
+        } else {
+            item.desconto = 0;
+            item.precoFinal = item.preco;
+        }
+
+        return item;
+    });
+}
+
+let cardapio = [];
+
+function filtrarPorCategoria (categoria) {
+    if (categoria === "todas") {
+        return cardapio
+    }
+    return cardapio.filter(function(item) {
+        return item.categoria === categoria;
+    });
+}
+
+let pedido = [];
+
+
 // 3. Tela
 async function carregarCardapio() {
     const cardapioElemento = document.querySelector("#cardapio");
-    const avisoElemento = document.querySelector("#aviso");
+    const avisoElemento = document.querySelector(".aviso");
 
     avisoElemento.textContent = "Carregando cardápio...";
     avisoElemento.hidden = false;
 
     try {
-        const itens = await buscarDados("cardapio.json");
+        const resultados = await Promise.all([
+    buscarDados("cardapio.json"),
+    buscarDados("promocoes.json")
+]);
+
+const itens = resultados[0];
+const promocoes = resultados[1];
+
+cardapio = aplicarPromocoes(itens, promocoes);
 
         cardapioElemento.innerHTML = "";
 
-       itens.forEach(function(item) {
+       cardapio.forEach(function(item) {
     const card = criarCard(item);
     cardapioElemento.appendChild(card);
 });
@@ -64,8 +105,24 @@ function criarCard(item) {
     descricao.textContent = item.descricao;
 
     const preco = document.createElement("p");
-    preco.classList.add("card__preco");
-    preco.textContent = formatarMoeda(item.preco);
+preco.classList.add("card__preco");
+
+if (item.desconto > 0) {
+    const selo = document.createElement("span");
+    selo.classList.add("card__promocao");
+    selo.textContent = `${item.desconto}% OFF`;
+
+    const precoAntigo = document.createElement("s");
+    precoAntigo.textContent = formatarMoeda(item.preco);
+
+    const precoFinal = document.createElement("strong");
+    precoFinal.textContent = formatarMoeda(item.precoFinal);
+
+    preco.append(selo, document.createElement("br"), precoAntigo,
+        document.createElement("br"), precoFinal);
+} else {
+    preco.textContent = formatarMoeda(item.precoFinal ?? item.preco);
+}
 
     const botao = document.createElement("button");
 
@@ -74,13 +131,109 @@ function criarCard(item) {
         botao.textContent = "Esgotado";
         botao.disabled = true;
     } else {
-        botao.textContent = "Adicionar";
-    }
+    botao.textContent = "Adicionar";
+
+    botao.addEventListener("click", function() {
+        pedido.push(item);
+        atualizarPedido();
+    });
+}
 
     card.append(nome, descricao, preco, botao);
 
     return card;
 }
 
+function mostrarCardapio(itens) {
+    const cardapioElemento = document.querySelector("#cardapio");
+
+    cardapioElemento.innerHTML = "";
+
+    itens.forEach(function(item) {
+        const card = criarCard(item);
+        cardapioElemento.appendChild(card);
+    });
+}
+
+function atualizarPedido() {
+    const listaPedido = document.querySelector("#lista-pedido");
+    const totalElemento = document.querySelector("#total");
+
+    listaPedido.innerHTML = "";
+
+    pedido.forEach(function(item) {
+        const linha = document.createElement("li");
+        linha.textContent = `${item.nome} - ${formatarMoeda(item.precoFinal ?? item.preco)}`;
+        listaPedido.appendChild(linha);
+    });
+
+    const total = pedido.reduce(function(soma, item) {
+        return soma + (item.precoFinal ?? item.preco);
+    }, 0);
+
+    totalElemento.textContent = formatarMoeda(total);
+}
+
+function enviarPedido(itens) {
+    return new Promise(function(resolve, reject) {
+        setTimeout(function() {
+            const falhou = Math.random() < 0.3;
+
+            if (falhou) {
+                reject(new Error("Não foi possível enviar o pedido. Tente novamente."));
+            } else {
+                const numeroPedido = Math.floor(Math.random() * 9000) + 1000;
+
+                resolve({
+                    numero: numeroPedido,
+                    itens: itens
+                });
+            }
+        }, 2000);
+    });
+}
+
+
 // 4. Eventos
-carregarCardapio();
+document.addEventListener("DOMContentLoaded", function() {
+    carregarCardapio();
+    const botaoFinalizar = document.querySelector("#finalizar");
+const statusPedido = document.querySelector("#status-pedido");
+
+botaoFinalizar.addEventListener("click", async function() {
+    if (pedido.length === 0) {
+        statusPedido.textContent = "Adicione pelo menos um item ao pedido.";
+        return;
+    }
+
+    botaoFinalizar.disabled = true;
+    botaoFinalizar.textContent = "Enviando pedido...";
+    statusPedido.textContent = "Enviando pedido...";
+
+    try {
+        const resultado = await enviarPedido(pedido);
+
+        statusPedido.textContent =
+            `Pedido #${resultado.numero} confirmado com sucesso!`;
+
+        pedido = [];
+        atualizarPedido();
+
+    } catch (erro) {
+        statusPedido.textContent = erro.message;
+
+    } finally {
+        botaoFinalizar.disabled = false;
+        botaoFinalizar.textContent = "Finalizar pedido";
+    }
+});
+
+    const filtroCategoria = document.querySelector("#filtro");
+
+    filtroCategoria.addEventListener("change", function() {
+        const categoriaSelecionada = filtroCategoria.value;
+        const itensFiltrados = filtrarPorCategoria(categoriaSelecionada);
+
+        mostrarCardapio(itensFiltrados);
+    });
+});
